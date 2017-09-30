@@ -14,14 +14,11 @@ class Routers extends Component {
       <Router history={browserHistory}>
         <Route path='/' component={App}>
           <IndexRoute component={Home} />
-          <Route path='login' component={Login}></Route>
+          <Route path='login' component={Login} />
         </Route>
       </Router>
 
     )
   }
-
-
-
 }
 export default Routers;

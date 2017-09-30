@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Form, Input, Button, Icon, Checkbox } from 'antd';
-import  './login.less'
-const FormItem = Form.Item;
+import authLogin from 'actions/login';
+import  './login.less';
 
+const FormItem = Form.Item;
 
 class LoginForm extends Component {
   constructor(props) {
@@ -15,11 +17,12 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        this.props.authLogin(values,() => {
+          window.location.href = '/';
+        });
       }
     });
-  }
-
-
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
@@ -27,18 +30,18 @@ class LoginForm extends Component {
       <div id="login_page">
         <Form onSubmit={this.handleSubmit} className="login-form">
           <FormItem>
-            {getFieldDecorator('userName', {
+            {getFieldDecorator('name', {
               rules: [{ required: true, message: 'Please input your username!' }],
             })(
               <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
             )}
           </FormItem>
           <FormItem>
-            {getFieldDecorator('password', {
+            {getFieldDecorator('pwd', {
               rules: [{ required: true, message: 'Please input your Password!' }],
             })(
               <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="Password" />
-             )}
+            )}
           </FormItem>
           <FormItem>
             {getFieldDecorator('remember', {
@@ -48,13 +51,25 @@ class LoginForm extends Component {
               <Checkbox>Remember me</Checkbox>
             )}
             <a className="login-form-forgot" href="">Forgot password</a>
-            <Button type="primary" htmlType="submit" className="login-form-button">Log in</Button>
-             Or <a href="">register now!</a>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              Log in
+            </Button>
+            Or <a href="">register now!</a>
           </FormItem>
         </Form>
       </div>
     )
   }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    authInfo: state.authInfo
+  };
 };
-const WrappedNormalLoginForm = Form.create()(LoginForm);
-export default WrappedNormalLoginForm;
+export default connect(
+  mapStateToProps,
+  {
+    authLogin
+  }
+)(Form.create()(LoginForm));
