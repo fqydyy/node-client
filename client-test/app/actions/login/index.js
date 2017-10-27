@@ -1,7 +1,7 @@
 import { CALL_API } from 'middlewares/api';
 import { API, ACTIONS as A } from 'constant';
 
-export default function authLogin(value, callback) {
+function authLogin(value, callback) {
   return {
     [CALL_API]: {
       method: 'POST',
@@ -11,4 +11,21 @@ export default function authLogin(value, callback) {
       data: value
     }
   }
+}
+
+function checkAuth(AuthToken) {
+  return {
+    [CALL_API]:  {
+      url: API.CHECK_AUTH,
+      headers: {
+        authorization: AuthToken
+      },
+      types: [A.REQUEST_CHECK_AUTH, A.RECEIVE_CHECK_AUTH_SUCCESS, A.REQUEST_CHECK_AUTH_ERROR]
+    }
+  }
+}
+
+export {
+  authLogin,
+  checkAuth
 }

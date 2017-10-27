@@ -27,8 +27,8 @@ export default () => next => action => {
   }
   const createNewAction = data => {
     let newAction = {
-        ...action,
-        ...data
+      ...action,
+      ...data
     };
     delete newAction[CALL_API];
     return newAction;
@@ -50,20 +50,20 @@ export default () => next => action => {
     aftersuccess
   }).then(
     r => {
-      success && success(r)
+      success && success(r);
       next(createNewAction({
         type: successType,
         payload: r.data,
         args,
         request: data
-      }))
+      }));
       if (_.isFunction(aftersuccess)) {
         aftersuccess(r.data);
       }
     }
   ).catch(
     e => {
-      error && error(e)
+      error && error(e);
       next(createNewAction({
         type: failureType,
         error: e,

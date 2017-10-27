@@ -46,13 +46,15 @@ function checkStatus(response) {
 
 function remote(options) {
   let fetchOptions = {};
+  let token = localStorage.getItem('token');
 
   options.method = options.method || 'GET';
 
   fetchOptions.headers = {
     'Accept': 'application/json, text/javascript, */*;',
     'Content-Type': 'application/json; charset=utf-8',
-    'X-Requested-With': 'xmlhttprequest'
+    'X-Requested-With': 'xmlhttprequest',
+    'authorization': token
     // 'local': navigator.language || 'en-US'
   }
   fetchOptions.credentials = 'include';

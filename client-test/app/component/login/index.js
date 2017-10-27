@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Form, Input, Button, Icon, Checkbox } from 'antd';
-import authLogin from 'actions/login';
+import { Form, Input, Button, Icon, Checkbox, message } from 'antd';
+import { authLogin } from 'actions/login';
 import  './login.less';
 
 const FormItem = Form.Item;
@@ -17,8 +17,13 @@ class LoginForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
-        this.props.authLogin(values,() => {
-          window.location.href = '/';
+        this.props.authLogin(values,(data) => {
+          if (data && data.token) {
+            localStorage.setItem('token','zyy '+ data.token);
+            window.location.href = '/';
+          } else {
+            message.error('密码错误！！');
+          }
         });
       }
     });

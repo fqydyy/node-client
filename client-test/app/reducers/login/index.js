@@ -13,5 +13,12 @@ export default createReducer(initialState, {
   },
   [ACTIONS.REQUEST_AUTH_LOGIN_ERROR]: () => {
     return {};
+  },
+  [ACTIONS.RECEIVE_CHECK_AUTH_SUCCESS]: (state,payload) => {
+    return {
+      ...state,
+      ...payload
+    }
   }
+
 });
